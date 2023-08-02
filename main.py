@@ -14,12 +14,22 @@ import matplotlib.pyplot as plt
 
 
 # main urls
-main_url = 'https://api.nbp.pl/api/exchangerates/rates/a/'
-
-usd_url = 'usd/last/100/?format=json'
-chf_url = 'chf/last/100/?format=json'
-chf_eur = 'eur/last/100/?format=json'
+usd_url = 'usd'
+chf_url = 'chf'
+chf_eur = 'eur'
 
 
+def get_data_from_NBP_API(currency):
+    # main urls
+    main_url = 'https://api.nbp.pl/api/exchangerates/rates/a/'
+    left_url = '/last/100/?format=json'
+
+    response = requests.get(main_url + currency + left_url)
+    response.raise_for_status()
+
+    return response.json()
+
+
+print(get_data_from_NBP_API(usd_url))
 
 
