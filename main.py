@@ -10,13 +10,14 @@ Author: MC
 
 import requests
 import pandas as pd
+import json
 import matplotlib.pyplot as plt
 
 
 # main urls
 usd_url = 'usd'
 chf_url = 'chf'
-chf_eur = 'eur'
+eur_url = 'eur'
 
 
 def get_data_from_NBP_API(currency):
@@ -30,6 +31,38 @@ def get_data_from_NBP_API(currency):
     return response.json()
 
 
-print(get_data_from_NBP_API(usd_url))
+# get data from API
+df_usd = pd.read_json(json.dumps(get_data_from_NBP_API(usd_url)['rates']))
+df_chf = pd.read_json(json.dumps(get_data_from_NBP_API(chf_url)['rates']))
+df_eur = pd.read_json(json.dumps(get_data_from_NBP_API(eur_url)['rates']))
 
+# plot the results
+ax = plt.gca()
+
+parameters = {
+    'kind': 'line',
+    'x': 'effectiveDate',
+    'y': 'mid',
+    'ax': ax,
+}
+
+df_usd.plot(
+    **parameters,
+    label='USD',
+    color='red'
+)
+
+df_chf.plot(
+    **parameters,
+    label='CHF',
+    color='green'
+)
+
+df_eur.plot(
+    **parameters,
+    label='EUR',
+    color='blue'
+)
+
+plt.show()
 
