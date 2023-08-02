@@ -66,3 +66,9 @@ df_eur.plot(
 
 plt.show()
 
+# save results to Excel
+with pd.ExcelWriter('output_data.xlsx') as writer:
+    df_usd.to_excel(writer, sheet_name='USD', engine='xlsxwriter')
+    df_chf.to_excel(writer, sheet_name='CHF', engine='xlsxwriter')
+    df_eur.to_excel(writer, sheet_name='EUR', engine='xlsxwriter')
+
